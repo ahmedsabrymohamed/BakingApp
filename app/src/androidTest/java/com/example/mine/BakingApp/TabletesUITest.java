@@ -28,15 +28,15 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TabletUITest {
+public class TabletesUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void tabletUITest() {
+    public void tabletesUITest() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -45,13 +45,13 @@ public class TabletUITest {
                         childAtPosition(
                                 withId(android.R.id.content),
                                 0)));
-        recyclerView.perform(actionOnItemAtPosition(1, click()));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(4938);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -61,20 +61,20 @@ public class TabletUITest {
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 0)));
-        recyclerView2.perform(actionOnItemAtPosition(13, click()));
+        recyclerView2.perform(actionOnItemAtPosition(14, click()));
 
         ViewInteraction recyclerView3 = onView(
                 allOf(withId(R.id.ingredient_list),
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 0)));
-        recyclerView3.perform(actionOnItemAtPosition(17, click()));
+        recyclerView3.perform(actionOnItemAtPosition(15, click()));
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -114,7 +114,7 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -154,7 +154,7 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -174,19 +174,85 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        pressBack();
+
+        ViewInteraction recyclerView4 = onView(
+                allOf(withId(R.id.recipe_list),
+                        childAtPosition(
+                                withId(android.R.id.content),
+                                0)));
+        recyclerView4.perform(actionOnItemAtPosition(3, click()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(4970);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction recyclerView5 = onView(
+                allOf(withId(R.id.ingredient_list),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView5.perform(actionOnItemAtPosition(17, click()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction recyclerView6 = onView(
+                allOf(withId(R.id.ingredient_list),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView6.perform(actionOnItemAtPosition(19, click()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction recyclerView7 = onView(
+                allOf(withId(R.id.ingredient_list),
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                0)));
+        recyclerView7.perform(actionOnItemAtPosition(21, click()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         ViewInteraction floatingActionButton6 = onView(
-                allOf(withId(R.id.floatingActionButton_previous),
+                allOf(withId(R.id.floatingActionButton_next),
                         childAtPosition(
                                 allOf(withId(R.id.portrait_layout),
                                         childAtPosition(
                                                 withClassName(is("android.widget.FrameLayout")),
                                                 0)),
-                                2),
+                                1),
                         isDisplayed()));
         floatingActionButton6.perform(click());
 
@@ -194,7 +260,7 @@ public class TabletUITest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -210,16 +276,38 @@ public class TabletUITest {
                         isDisplayed()));
         floatingActionButton7.perform(click());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        ViewInteraction floatingActionButton8 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
+                        childAtPosition(
+                                allOf(withId(R.id.portrait_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.FrameLayout")),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton8.perform(click());
 
-        pressBack();
+        ViewInteraction floatingActionButton9 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
+                        childAtPosition(
+                                allOf(withId(R.id.portrait_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.FrameLayout")),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton9.perform(click());
+
+        ViewInteraction floatingActionButton10 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
+                        childAtPosition(
+                                allOf(withId(R.id.portrait_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.FrameLayout")),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton10.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -230,55 +318,85 @@ public class TabletUITest {
             e.printStackTrace();
         }
 
-        ViewInteraction recyclerView4 = onView(
-                allOf(withId(R.id.recipe_list),
+        ViewInteraction floatingActionButton11 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
                         childAtPosition(
-                                withId(android.R.id.content),
-                                0)));
-        recyclerView4.perform(actionOnItemAtPosition(0, click()));
+                                allOf(withId(R.id.portrait_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.FrameLayout")),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton11.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-
-        ViewInteraction floatingActionButton8 = onView(
-                allOf(withId(R.id.floatingActionButton_next),
+        ViewInteraction floatingActionButton12 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
                         childAtPosition(
                                 allOf(withId(R.id.portrait_layout),
                                         childAtPosition(
                                                 withClassName(is("android.widget.FrameLayout")),
                                                 0)),
-                                1),
+                                2),
                         isDisplayed()));
-        floatingActionButton8.perform(click());
+        floatingActionButton12.perform(click());
 
-        ViewInteraction floatingActionButton9 = onView(
-                allOf(withId(R.id.floatingActionButton_next),
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction floatingActionButton13 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
                         childAtPosition(
                                 allOf(withId(R.id.portrait_layout),
                                         childAtPosition(
                                                 withClassName(is("android.widget.FrameLayout")),
                                                 0)),
-                                1),
+                                2),
                         isDisplayed()));
-        floatingActionButton9.perform(click());
+        floatingActionButton13.perform(click());
 
-        ViewInteraction floatingActionButton10 = onView(
-                allOf(withId(R.id.floatingActionButton_next),
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction floatingActionButton14 = onView(
+                allOf(withId(R.id.floatingActionButton_previous),
                         childAtPosition(
                                 allOf(withId(R.id.portrait_layout),
                                         childAtPosition(
                                                 withClassName(is("android.widget.FrameLayout")),
                                                 0)),
-                                1),
+                                2),
                         isDisplayed()));
-        floatingActionButton10.perform(click());
+        floatingActionButton14.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         pressBack();
 

@@ -50,6 +50,7 @@ public class RecipeDetailsFragment extends Fragment {
     private ImageView video;
     View root;
     private boolean videoUrl;
+    private boolean thumbNailUrl;
     private TextView longDescription;
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer simpleExoPlayer;
@@ -92,6 +93,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         }
         videoUrl=recipeSteps.getVideoURL().isEmpty();
+        thumbNailUrl=recipeSteps.getThumbnailURL().isEmpty();
         landScape = (getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE);
     }
 
@@ -108,7 +110,7 @@ public class RecipeDetailsFragment extends Fragment {
         longDescription = root.findViewById(R.id.long_description);
         video.setContentDescription(recipeSteps.getShortDescription());
         longDescription.setText(recipeSteps.getDescription());
-        if(!recipeSteps.getThumbnailURL().isEmpty())
+        if(!thumbNailUrl)
             Picasso.with(getActivity()).load(recipeSteps.getThumbnailURL()).into(video);
         FloatingActionButton next = root.findViewById(R.id.floatingActionButton_next);
         FloatingActionButton previous = root.findViewById(R.id.floatingActionButton_previous);
@@ -193,9 +195,10 @@ public class RecipeDetailsFragment extends Fragment {
     public void setRecipeSteps(RecipeSteps recipeSteps) {
 
         this.recipeSteps = recipeSteps;
+        videoUrl=recipeSteps.getVideoURL().isEmpty();
         simpleExoPlayerView.setVisibility(View.GONE);
         video.setContentDescription(recipeSteps.getShortDescription());
-        if(!videoUrl)
+        if(!thumbNailUrl)
             Picasso.with(getActivity()).load(recipeSteps.getThumbnailURL()).into(video);
         longDescription.setText(recipeSteps.getDescription());
         if (!videoUrl) {
@@ -249,6 +252,7 @@ public class RecipeDetailsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipeSteps", recipeSteps);
+      //  outState.putBoolean("videoUrl", videoUrl);
         if(!recipeSteps.getVideoURL().isEmpty())
         outState.putLong("exo",simpleExoPlayer.getCurrentPosition());
     }
