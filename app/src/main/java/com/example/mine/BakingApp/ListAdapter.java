@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,10 +24,10 @@ class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final SetOncLickListener mListener;
     private final Context mContext;
     private int Width;
-    private List<RecipeData> recipes;
-    private List<Ingredients> ingredients;
+    private ArrayList<RecipeData> recipes;
+    private ArrayList<Ingredients> ingredients;
     private int ingSize;
-    private List<RecipeSteps> recipeSteps;
+    private ArrayList<RecipeSteps> recipeSteps;
 
     ListAdapter(Context Listener, int dpWidth) {
 
@@ -46,18 +47,18 @@ class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    void setRecipes(List<RecipeData> recipes) {
+    void setRecipes(ArrayList<RecipeData> recipes) {
         this.recipes = recipes;
         this.notifyDataSetChanged();
     }
 
-    void setIngredients(List<Ingredients> ingredients) {
+    void setIngredients(ArrayList<Ingredients> ingredients) {
         this.ingredients = ingredients;
         ingSize = ingredients.size();
         this.notifyDataSetChanged();
     }
 
-    void setRecipeSteps(List<RecipeSteps> recipeSteps) {
+    void setRecipeSteps(ArrayList<RecipeSteps> recipeSteps) {
         this.recipeSteps = recipeSteps;
         this.notifyDataSetChanged();
     }
@@ -209,4 +210,9 @@ class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mListener.SetOnclick(recipeSteps.get(getAdapterPosition() - ingSize));
         }
     }
+    public ArrayList<RecipeData> get_recipes(){
+        return recipes;
+    }
+
+
 }

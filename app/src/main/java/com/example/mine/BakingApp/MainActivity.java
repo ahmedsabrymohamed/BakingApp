@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,29 +53,34 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.SetOn
         }
 
 
-        ApiInterface apiService =
-                APIClient.getClient().create(ApiInterface.class);
+        if(savedInstanceState==null) {
+            ApiInterface apiService =
+                    APIClient.getClient().create(ApiInterface.class);
 
-        Call<List<RecipeData>> call = apiService.getRecipesData();
-        call.enqueue(new Callback<List<RecipeData>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<RecipeData>> call
-                    , @NonNull Response<List<RecipeData>> response) {
-                recipeAdapter.setRecipes(response.body());
+            Call<ArrayList<RecipeData>> call = apiService.getRecipesData();
+            call.enqueue(new Callback<ArrayList<RecipeData>>() {
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<RecipeData>> call
+                        , @NonNull Response<ArrayList<RecipeData>> response) {
+                    recipeAdapter.setRecipes(response.body());
 
-                //setting the default widget Ingredients
-                if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                        .getString(INGREDIENTS_JSON, null) == null) {
-                    setWidget(getApplicationContext(), response.body().get(0).getIngredients() );
+                    //setting the default widget Ingredients
+                    if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                            .getString(INGREDIENTS_JSON, null) == null) {
+                        setWidget(getApplicationContext(), response.body().get(0).getIngredients());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<List<RecipeData>> call, @NonNull Throwable t) {
-                // Log error here since request failed
-                Toast.makeText(getApplicationContext(),getResources().getText(R.string.loadFailed),Toast.LENGTH_LONG);
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<RecipeData>> call, @NonNull Throwable t) {
+                    // Log error here since request failed
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.loadFailed), Toast.LENGTH_LONG);
+                }
+            });
+        }
+        else {
+            recipeAdapter.setRecipes(savedInstanceState.<RecipeData>getParcelableArrayList("recipes"));
+        }
     }
 
     @Override
@@ -100,5 +107,12 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.SetOn
                 .getAppWidgetIds(new ComponentName(getApplication(), IngredientsWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("recipes", recipeAdapter.get_recipes());
     }
 }

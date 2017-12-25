@@ -9,20 +9,22 @@ import java.util.List;
 
 public class RecipeData implements Parcelable {
 
-    public static final Parcelable.Creator<RecipeData> CREATOR = new Parcelable.Creator<RecipeData>() {
-        public RecipeData createFromParcel(Parcel in) {
+    public static final Parcelable.Creator<RecipeData> CREATOR = new Parcelable.Creator<RecipeData>()
+    {
+        public RecipeData createFromParcel(Parcel in)
+        {
             return new RecipeData(in);
         }
-
-        public RecipeData[] newArray(int size) {
+        public RecipeData[] newArray(int size)
+        {
             return new RecipeData[size];
         }
     };
     private final int id;
     private final String name;
     private final String image;
-    private final List<Ingredients> ingredients;
-    private final List<RecipeSteps> steps;
+    private final ArrayList<Ingredients> ingredients;
+    private final ArrayList<RecipeSteps> steps;
 
     private RecipeData(Parcel in) {
         id = in.readInt();
@@ -39,11 +41,11 @@ public class RecipeData implements Parcelable {
         return name;
     }
 
-    List<Ingredients> getIngredients() {
+    ArrayList<Ingredients> getIngredients() {
         return ingredients;
     }
 
-    List<RecipeSteps> getSteps() {
+    ArrayList<RecipeSteps> getSteps() {
         return steps;
     }
 
