@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -63,14 +64,14 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.SetOn
                 //setting the default widget Ingredients
                 if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                         .getString(INGREDIENTS_JSON, null) == null) {
-                    setDefaultWidget(getApplicationContext(), response.body().get(0).getIngredients(), new ComponentName(getApplicationContext(), IngredientsWidget.class));
+                    setWidget(getApplicationContext(), response.body().get(0).getIngredients() );
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<RecipeData>> call, @NonNull Throwable t) {
                 // Log error here since request failed
-                Log.e(getLocalClassName(), t.toString());
+                Toast.makeText(getApplicationContext(),getResources().getText(R.string.loadFailed),Toast.LENGTH_LONG);
             }
         });
     }
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.SetOn
 
     }
 
-    private void setDefaultWidget(Context context, List<Ingredients> ingredientsList, ComponentName componentName) {
+    private void setWidget(Context context, List<Ingredients> ingredientsList) {
         Gson gson = new Gson();
         String ingredients = gson.toJson(ingredientsList);
         PreferenceManager.getDefaultSharedPreferences(context)
@@ -92,11 +93,12 @@ public class MainActivity extends AppCompatActivity implements ListAdapter.SetOn
         AppWidgetManager appWidgetManager = AppWidgetManager
                 .getInstance(context);
 
-        int[] appWidgetIds = appWidgetManager
-                .getAppWidgetIds(componentName);
+        Intent intent = new Intent(this, IngredientsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredient_list_widget);
-
-        IngredientsWidget.updateAppWidget(context, appWidgetManager, appWidgetIds);
+        int[] ids = appWidgetManager
+                .getAppWidgetIds(new ComponentName(getApplication(), IngredientsWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 }

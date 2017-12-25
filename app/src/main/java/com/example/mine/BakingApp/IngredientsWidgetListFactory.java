@@ -16,7 +16,7 @@ class IngredientsWidgetListFactory implements RemoteViewsService.RemoteViewsFact
 
     private static final String INGREDIENTS_JSON = "Ingredients";
     private final Context mContext;
-    private final List<Ingredients> listItemList;
+    private  List<Ingredients> listItemList;
 
     IngredientsWidgetListFactory(Context mContext) {
 
@@ -45,7 +45,21 @@ class IngredientsWidgetListFactory implements RemoteViewsService.RemoteViewsFact
 
     @Override
     public void onDataSetChanged() {
+        Gson gson = new Gson();
 
+        String jsonIngredients = PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getString(INGREDIENTS_JSON, null);
+
+        Type listType = new TypeToken<List<Ingredients>>() {
+        }.getType();
+
+        List<Ingredients> ingredients = gson.fromJson(jsonIngredients, listType);
+
+        if (jsonIngredients == null)
+            listItemList = new ArrayList<>();
+        else {
+            listItemList = ingredients;
+        }
     }
 
     @Override

@@ -7,4 +7,5 @@
     <string name="set_widget">Set Widget</string>
     <string name="Ingredient_number">Ingredient # </string>
     <string name="Step_number">Step # </string>
+    <string name="loadFailed">Failed to Load Data </string>
 </resources>

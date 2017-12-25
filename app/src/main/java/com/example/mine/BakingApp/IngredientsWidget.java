@@ -21,6 +21,7 @@ public class IngredientsWidget extends AppWidgetProvider {
             Intent intent = new Intent(context, IngredientsWidgetListService.class);
             views.setRemoteAdapter(R.id.ingredient_list_widget, intent);
             appWidgetManager.updateAppWidget(appWidgetId, views);
+
         }
     }
 

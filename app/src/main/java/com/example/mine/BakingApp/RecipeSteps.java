@@ -41,6 +41,7 @@ public class RecipeSteps implements Parcelable {
         return description;
     }
 
+    String getThumbnailURL(){return thumbnailURL;}
     String getVideoURL() {
         return videoURL;
     }

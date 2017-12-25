@@ -23,7 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.mine.BakingApp.RecipeInfoActivity" />
+        <activity android:name="com.example.mine.BakingApp.RecipeInfoActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mine.BakingApp.MainActivity" />
+        </activity>
+
+
 
         <receiver android:name="com.example.mine.BakingApp.IngredientsWidget">
             <intent-filter>

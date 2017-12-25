@@ -1,8 +1,12 @@
 package com.example.mine.BakingApp;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class RecipeInfoActivity extends AppCompatActivity
         implements MasterPageFragment.OnFragmentInteractionListener
@@ -21,7 +25,8 @@ public class RecipeInfoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_recipe_info);
-        twoPane = (findViewById(R.id.detail_fragment) != null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        twoPane = getResources().getBoolean(R.bool.isTablet);
         fragmentManager = getSupportFragmentManager();
         recipeData = getIntent().getParcelableExtra("recipe");
         if (savedInstanceState != null) {
@@ -102,4 +107,20 @@ public class RecipeInfoActivity extends AppCompatActivity
     }
 
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                if(getSupportFragmentManager().getBackStackEntryCount()==0)
+                NavUtils.navigateUpFromSameTask(this);
+                else
+                    getSupportFragmentManager().popBackStack();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 }

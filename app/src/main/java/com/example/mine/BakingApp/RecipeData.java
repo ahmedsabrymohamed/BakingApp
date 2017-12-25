@@ -20,12 +20,14 @@ public class RecipeData implements Parcelable {
     };
     private final int id;
     private final String name;
+    private final String image;
     private final List<Ingredients> ingredients;
     private final List<RecipeSteps> steps;
 
     private RecipeData(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        image=in.readString();
         ingredients = new ArrayList<>();
         steps = new ArrayList<>();
         in.readTypedList(ingredients, Ingredients.CREATOR);
@@ -45,6 +47,8 @@ public class RecipeData implements Parcelable {
         return steps;
     }
 
+    public String getImage(){return image;}
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,6 +59,7 @@ public class RecipeData implements Parcelable {
 
         parcel.writeInt(id);
         parcel.writeString(name);
+        parcel.writeString(image);
         parcel.writeTypedList(ingredients);
         parcel.writeTypedList(steps);
     }

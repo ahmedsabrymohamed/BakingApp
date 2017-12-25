@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -103,8 +106,12 @@ class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     break;
                 }
             default:
-                RecipesListViewHolder recipesViewHolder = (RecipesListViewHolder) holder;
+                 RecipesListViewHolder recipesViewHolder = (RecipesListViewHolder) holder;
                 recipesViewHolder.recipesName.setText(recipes.get(position).getName());
+                if(recipes.get(position).getImage().isEmpty())
+                    recipesViewHolder.recipeImage.setVisibility(View.GONE);
+                else
+                    Picasso.with(mContext).load(recipes.get(position).getImage()).into(recipesViewHolder.recipeImage);
 
         }
 
@@ -138,12 +145,14 @@ class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         final TextView recipesName;
         final CardView recipeCard;
+        final ImageView recipeImage;
 
         RecipesListViewHolder(View itemView) {
 
             super(itemView);
             recipesName = itemView.findViewById(R.id.recipe_name);
             recipeCard = itemView.findViewById(R.id.recipe_item_card_view);
+            recipeImage= itemView.findViewById(R.id.recipe_image);
             if (Width < 600)
                 recipeCard.setMinimumWidth(Width);
             itemView.setOnClickListener(this);

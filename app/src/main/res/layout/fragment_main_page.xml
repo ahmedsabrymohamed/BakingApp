@@ -8,7 +8,14 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ingredient_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/setWidget"
+        android:text="Set in Wedgit"/>
 </LinearLayout>
 
 

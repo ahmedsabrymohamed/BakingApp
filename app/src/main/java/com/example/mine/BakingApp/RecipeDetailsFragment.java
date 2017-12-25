@@ -3,6 +3,7 @@ package com.example.mine.BakingApp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -23,6 +25,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.squareup.picasso.Picasso;
 
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
@@ -40,10 +43,13 @@ public class RecipeDetailsFragment extends Fragment {
 
     private static final String TWO_PANE = "param1";
     private static final String RECIPE_STEPS = "recipeSteps";
+    private long exoPosition;
 
 
     private RecipeSteps recipeSteps;
-    private TextView video;
+    private ImageView video;
+    View root;
+    private boolean videoUrl;
     private TextView longDescription;
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer simpleExoPlayer;
@@ -76,11 +82,16 @@ public class RecipeDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        exoPosition=0;
+
         if (savedInstanceState != null) {
             recipeSteps = savedInstanceState.getParcelable("recipeSteps");
+            exoPosition=savedInstanceState.getLong("exo");
         } else if (getArguments() != null) {
             recipeSteps = getArguments().getParcelable(RECIPE_STEPS);
+
         }
+        videoUrl=recipeSteps.getVideoURL().isEmpty();
         landScape = (getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE);
     }
 
@@ -88,16 +99,17 @@ public class RecipeDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_recipe_details, container, false);
+        root = inflater.inflate(R.layout.fragment_recipe_details, container, false);
+
 
 
         video = root.findViewById(R.id.video);
 
         longDescription = root.findViewById(R.id.long_description);
-        video.setText(recipeSteps.getShortDescription());
+        video.setContentDescription(recipeSteps.getShortDescription());
         longDescription.setText(recipeSteps.getDescription());
-
-
+        if(!recipeSteps.getThumbnailURL().isEmpty())
+            Picasso.with(getActivity()).load(recipeSteps.getThumbnailURL()).into(video);
         FloatingActionButton next = root.findViewById(R.id.floatingActionButton_next);
         FloatingActionButton previous = root.findViewById(R.id.floatingActionButton_previous);
         next.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +125,7 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
         simpleExoPlayerView = root.findViewById(R.id.player);
-        if (!recipeSteps.getVideoURL().isEmpty() && landScape) {
+        if (!videoUrl && landScape) {
 
             Dialog ved = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
@@ -122,10 +134,17 @@ public class RecipeDetailsFragment extends Fragment {
             ((ViewGroup) simpleExoPlayerView.getParent()).removeView(simpleExoPlayerView);
             ved.addContentView(simpleExoPlayerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             ved.show();
+            ved.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    simpleExoPlayerView=root.findViewById(R.id.player);
+                    simpleExoPlayerView.setPlayer(simpleExoPlayer);
+                }
+            });
         }
 
 
-        if (recipeSteps.getVideoURL().isEmpty()) {
+        if (videoUrl) {
             video.setVisibility(View.VISIBLE);
             simpleExoPlayerView.setVisibility(View.GONE);
         } else
@@ -148,6 +167,14 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(!videoUrl)
+            initializePlayer(recipeSteps.getVideoURL());
+
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -167,9 +194,11 @@ public class RecipeDetailsFragment extends Fragment {
 
         this.recipeSteps = recipeSteps;
         simpleExoPlayerView.setVisibility(View.GONE);
-        video.setText(recipeSteps.getShortDescription());
+        video.setContentDescription(recipeSteps.getShortDescription());
+        if(!videoUrl)
+            Picasso.with(getActivity()).load(recipeSteps.getThumbnailURL()).into(video);
         longDescription.setText(recipeSteps.getDescription());
-        if (!recipeSteps.getVideoURL().isEmpty()) {
+        if (!videoUrl) {
             releasePlayer();
             initializePlayer(recipeSteps.getVideoURL());
             simpleExoPlayerView.setVisibility(View.VISIBLE);
@@ -196,7 +225,9 @@ public class RecipeDetailsFragment extends Fragment {
                     getActivity(), recipeSteps.getShortDescription()),
                     new DefaultExtractorsFactory(), null, null);
             simpleExoPlayer.prepare(mediaSource);
+            simpleExoPlayer.seekTo(exoPosition);
             simpleExoPlayer.setPlayWhenReady(true);
+
         }
     }
 
@@ -218,6 +249,8 @@ public class RecipeDetailsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipeSteps", recipeSteps);
+        if(!recipeSteps.getVideoURL().isEmpty())
+        outState.putLong("exo",simpleExoPlayer.getCurrentPosition());
     }
 
     public interface OnFragmentInteractionListener {
@@ -225,5 +258,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         void getNextStep(int position);
     }
+
+
 
 }
