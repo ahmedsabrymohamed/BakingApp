@@ -61,16 +61,10 @@ public class RecipeDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public RecipeDetailsFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeDetailsFragment.
-     */
+
 
     public static RecipeDetailsFragment newInstance(RecipeSteps param2) {
         RecipeDetailsFragment fragment = new RecipeDetailsFragment();
@@ -184,16 +178,7 @@ public class RecipeDetailsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public void setRecipeSteps(RecipeSteps recipeSteps) {
 
         this.recipeSteps = recipeSteps;
@@ -254,7 +239,6 @@ public class RecipeDetailsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipeSteps", recipeSteps);
-      //  outState.putBoolean("videoUrl", videoUrl);
         if(!recipeSteps.getVideoURL().isEmpty())
         {
             outState.putLong("exo",simpleExoPlayer.getCurrentPosition());

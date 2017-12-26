@@ -36,7 +36,7 @@ public class PhoneUITest {
     @Test
     public void phoneUITest() {
         try {
-            Thread.sleep(8000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

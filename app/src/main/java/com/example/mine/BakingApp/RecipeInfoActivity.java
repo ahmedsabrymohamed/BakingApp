@@ -39,13 +39,13 @@ public class RecipeInfoActivity extends AppCompatActivity
             masterPageFragment = MasterPageFragment.newInstance(twoPane, recipeData);
             masterPageFragment.onAttach(this);
             fragmentManager.beginTransaction()
-                    .replace(R.id.master_fragment, masterPageFragment).commit();
+                    .replace(R.id.master_fragment, masterPageFragment,MASTER_PAGE_KEY).commit();
 
             if (twoPane) {
                 recipeDetailsFragment = RecipeDetailsFragment.newInstance(recipeData.getSteps().get(0));
                 recipeDetailsFragment.onAttach(this);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.detail_fragment, recipeDetailsFragment).commit();
+                        .replace(R.id.detail_fragment, recipeDetailsFragment,RECIPE_DETAILS_KEY).commit();
 
             }
         }
@@ -61,7 +61,7 @@ public class RecipeInfoActivity extends AppCompatActivity
             recipeDetailsFragment = RecipeDetailsFragment.newInstance((RecipeSteps) obj);
             recipeDetailsFragment.onAttach(this);
             fragmentManager.beginTransaction()
-                    .replace(R.id.master_fragment, recipeDetailsFragment).addToBackStack(RECIPE_DETAILS_KEY).commit();
+                    .replace(R.id.master_fragment, recipeDetailsFragment,RECIPE_DETAILS_KEY).addToBackStack(RECIPE_DETAILS_KEY).commit();
 
         } else {
 
@@ -95,10 +95,10 @@ public class RecipeInfoActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        if (masterPageFragment != null)
+        if (masterPageFragment != null&&fragmentManager.findFragmentByTag(MASTER_PAGE_KEY)!=null)
             fragmentManager.putFragment(outState, MASTER_PAGE_KEY, masterPageFragment);
 
-        if (recipeDetailsFragment != null)
+        if (recipeDetailsFragment != null&&fragmentManager.findFragmentByTag(RECIPE_DETAILS_KEY)!=null)
             fragmentManager.putFragment(outState, RECIPE_DETAILS_KEY, recipeDetailsFragment);
 
 
